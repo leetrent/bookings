@@ -1,0 +1,23 @@
+# At root leve of project, do the following:
+$ go mod init github.com/leetrent/bookings
+go: creating new go.mod: module github.com/leetrent/bookings
+go: to add module requirements and sums:
+        go mod tidy
+
+# Install chi router:
+$ go get -u github.com/go-chi/chi
+go: downloading github.com/go-chi/chi v1.5.4
+go get: added github.com/go-chi/chi v1.5.4
+
+# Install SCS: HTTP Session Management for GO:
+$ go get github.com/alexedwards/scs/v2
+go: downloading github.com/alexedwards/scs v1.4.1
+go: downloading github.com/alexedwards/scs/v2 v2.4.0
+go get: added github.com/alexedwards/scs/v2 v2.4.0
+
+# Install nosurf:
+# nosurf is an HTTP package for Go that helps you prevent Cross-Site Request Forgery attacks.
+# It acts like a middleware and therefore is compatible with basically any Go HTTP application.
+$ go get github.com/justinas/nosurf
+go: downloading github.com/justinas/nosurf v1.1.1
+go get: added github.com/justinas/nosurf v1.1.1
