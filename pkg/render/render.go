@@ -1,4 +1,4 @@
-package main
+package render
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func renderTemplate(rw http.ResponseWriter, fileName string) {
+func RenderTemplate(rw http.ResponseWriter, fileName string) {
 	parsedTemplate, err := template.ParseFiles("./templates/" + fileName)
 	if err != nil {
 		fmt.Printf("error encountered when invoking template.ParseFiles for %s", fileName)
