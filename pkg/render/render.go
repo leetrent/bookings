@@ -7,21 +7,26 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/leetrent/bookings/pkg/config"
 )
 
 var functions = template.FuncMap{}
 
+var appConfig *config.AppConfig
+
+func NewTemplates(ac *config.AppConfig) {
+	appConfig = ac
+}
+
 func RenderTemplate(responseWriter http.ResponseWriter, templateName string) {
-	templateCache, err := CreateTemplateCache()
-	if err != nil {
-		log.Fatal(err)
-	}
+	templateCache := appConfig.TemplateCache
 
 	template, ok := templateCache[templateName]
 	if !ok {
-		log.Fatal(err)
+		log.Fatal("Error encountered whan attempting to get template from template cache for ", templateName)
 	}
-
+	
 	buffer := new(bytes.Buffer)
 	_ = template.Execute(buffer, nil)
 
