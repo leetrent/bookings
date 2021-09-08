@@ -20,13 +20,19 @@ func NewTemplates(ac *config.AppConfig) {
 }
 
 func RenderTemplate(responseWriter http.ResponseWriter, templateName string) {
-	templateCache := appConfig.TemplateCache
+	var templateCache map[string]*template.Template
+
+	if appConfig.UseCache {
+		templateCache = appConfig.TemplateCache
+	} else {
+		templateCache, _ = CreateTemplateCache()
+	}
 
 	template, ok := templateCache[templateName]
 	if !ok {
 		log.Fatal("Error encountered whan attempting to get template from template cache for ", templateName)
 	}
-	
+
 	buffer := new(bytes.Buffer)
 	_ = template.Execute(buffer, nil)
 
