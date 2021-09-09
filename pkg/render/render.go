@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/leetrent/bookings/pkg/config"
+	"github.com/leetrent/bookings/pkg/models"
 )
 
 var functions = template.FuncMap{}
@@ -19,7 +20,11 @@ func NewTemplates(ac *config.AppConfig) {
 	appConfig = ac
 }
 
-func RenderTemplate(responseWriter http.ResponseWriter, templateName string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
+func RenderTemplate(responseWriter http.ResponseWriter, templateName string, templateData *models.TemplateData) {
 	var templateCache map[string]*template.Template
 
 	if appConfig.UseCache {
@@ -34,7 +39,8 @@ func RenderTemplate(responseWriter http.ResponseWriter, templateName string) {
 	}
 
 	buffer := new(bytes.Buffer)
-	_ = template.Execute(buffer, nil)
+	templateData = AddDefaultData(templateData)
+	_ = template.Execute(buffer, templateData)
 
 	nbrOfBytes, err := buffer.WriteTo(responseWriter)
 	if err != nil {

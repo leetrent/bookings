@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/leetrent/bookings/pkg/config"
+	"github.com/leetrent/bookings/pkg/models"
 	"github.com/leetrent/bookings/pkg/render"
 )
 
@@ -24,9 +25,11 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(rw http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(rw, "home.page.tmpl")
+	render.RenderTemplate(rw, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) About(rw http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(rw, "about.page.tmpl")
+	stringMap := make(map[string]string)
+	stringMap["about"] = "Using string map in template data. Preparing default data."
+	render.RenderTemplate(rw, "about.page.tmpl", &models.TemplateData{StringMap: stringMap})
 }
