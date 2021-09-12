@@ -60,8 +60,8 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 
 	for _, page := range pages {
 		name := filepath.Base(page)
-		fmt.Println("Page is currently", page)
-		fmt.Println("Name is currently", name)
+		// fmt.Println("Page is currently", page)
+		// fmt.Println("Name is currently", name)
 		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
 			return myCache, err
