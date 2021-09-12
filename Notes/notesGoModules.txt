@@ -22,3 +22,6 @@ go get: added github.com/justinas/nosurf v1.1.1
 
 # Install pat:
 $ go get github.com/bmizerany/pat
+
+# Remove unused packages:
+$ go mod tidy
