@@ -19,3 +19,6 @@ go get: added github.com/alexedwards/scs/v2 v2.4.0
 # It acts like a middleware and therefore is compatible with basically any Go HTTP application.
 $ go get github.com/justinas/nosurf
 go get: added github.com/justinas/nosurf v1.1.1
+
+# Install pat:
+$ go get github.com/bmizerany/pat
