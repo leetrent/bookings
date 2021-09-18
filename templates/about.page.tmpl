@@ -7,6 +7,14 @@
                 <h1>About Page</h1>
                 <p>Using chi router</p>
                 <p>{{index .StringMap "about"}}</p>
+
+                <p>
+                    {{if ne (index .StringMap "remote_ip") "" }}
+                        Your remote IP address is {{index .StringMap "remote_ip"}}
+                    {{else}}
+                        Visit the <a href="/">Home Page</a> to capture your IP address
+                    {{end}}
+                </p>
             </div>
         </div>
     </div>

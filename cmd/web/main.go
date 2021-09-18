@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/leetrent/bookings/pkg/config"
 	"github.com/leetrent/bookings/pkg/handlers"
 	"github.com/leetrent/bookings/pkg/render"
@@ -12,8 +14,20 @@ import (
 
 const port = ":8080"
 
+var appConfig config.AppConfig
+var session *scs.SessionManager
+
 func main() {
-	var appConfig config.AppConfig
+
+	appConfig.InProduction = false
+
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = appConfig.InProduction
+
+	appConfig.Session = session
 
 	templateCache, err := render.CreateTemplateCache()
 	if err != nil {
