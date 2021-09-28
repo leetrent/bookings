@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/justinas/nosurf"
 	"github.com/leetrent/bookings/pkg/config"
 	"github.com/leetrent/bookings/pkg/models"
 )
@@ -20,11 +21,12 @@ func NewTemplates(ac *config.AppConfig) {
 	appConfig = ac
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
-func RenderTemplate(responseWriter http.ResponseWriter, templateName string, templateData *models.TemplateData) {
+func RenderTemplate(responseWriter http.ResponseWriter, r *http.Request, templateName string, templateData *models.TemplateData) {
 	var templateCache map[string]*template.Template
 
 	if appConfig.UseCache {
@@ -39,7 +41,7 @@ func RenderTemplate(responseWriter http.ResponseWriter, templateName string, tem
 	}
 
 	buffer := new(bytes.Buffer)
-	templateData = AddDefaultData(templateData)
+	templateData = AddDefaultData(templateData, r)
 	_ = template.Execute(buffer, templateData)
 
 	nbrOfBytes, err := buffer.WriteTo(responseWriter)
