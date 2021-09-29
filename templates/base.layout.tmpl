@@ -16,6 +16,30 @@
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
         <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+
+        <style>
+            .btn-outline-secondary {
+                color: aqua;
+                border-color: #6c757d;
+            }
+
+            p {
+
+            }
+
+            .paraClass {
+                font-size: 3em;
+            }
+
+            .secondClass {
+                color: red;
+            }
+
+            #lastPara {
+                text-decoration: underline;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -50,6 +74,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/contact">Contact</a>
                 </li>
+
             </ul>
         </div>
     </nav>
@@ -57,6 +82,7 @@
     {{block "content" .}}
 
     {{end}}
+
 
     <footer class="my-footer">
         <div class="row">
@@ -191,7 +217,7 @@
                     title = "",
                 } = c;
 
-                const { value: formValues } = await Swal.fire({
+                const { value: result } = await Swal.fire({
                     title: title,
                     html: msg,
                     backdrop: false,
@@ -216,8 +242,18 @@
                     }
                 })
 
-                if (formValues) {
-                    Swal.fire(JSON.stringify(formValues))
+                if (result) {
+                    if (result.dismiss !== Swal.DismissReason.cancel) {
+                        if (result.value !== "") {
+                            if (c.callback !== undefined) {
+                                c.callback(result);
+                            }
+                        } else {
+                            c.callback(false);
+                        }
+                    } else {
+                        c.callback(false);
+                    }
                 }
             }
 
