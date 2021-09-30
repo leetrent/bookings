@@ -80,15 +80,15 @@ type jsonResponse struct {
 }
 
 func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
-	// resp := jsonResponse{
-	// 	OK:      true,
-	// 	Message: "Available!",
-	// }
-
 	resp := jsonResponse{
-		OK:      false,
-		Message: "Sorry, not available",
+		OK:      true,
+		Message: "Available!",
 	}
+
+	// resp := jsonResponse{
+	// 	OK:      false,
+	// 	Message: "Sorry, not available",
+	// }
 
 	out, err := json.MarshalIndent(resp, "", "    ")
 	if err != nil {
