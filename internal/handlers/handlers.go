@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/leetrent/bookings/pkg/config"
-	"github.com/leetrent/bookings/pkg/models"
-	"github.com/leetrent/bookings/pkg/render"
+	"github.com/leetrent/bookings/internal/config"
+	"github.com/leetrent/bookings/internal/models"
+	"github.com/leetrent/bookings/internal/render"
 )
 
 var Repo *Repository

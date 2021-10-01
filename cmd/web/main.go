@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/leetrent/bookings/pkg/config"
-	"github.com/leetrent/bookings/pkg/handlers"
-	"github.com/leetrent/bookings/pkg/render"
+	"github.com/leetrent/bookings/internal/config"
+	"github.com/leetrent/bookings/internal/handlers"
+	"github.com/leetrent/bookings/internal/render"
 )
 
 const port = ":8080"
