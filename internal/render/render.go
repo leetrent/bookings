@@ -44,12 +44,13 @@ func RenderTemplate(responseWriter http.ResponseWriter, r *http.Request, templat
 	templateData = AddDefaultData(templateData, r)
 	_ = template.Execute(buffer, templateData)
 
-	nbrOfBytes, err := buffer.WriteTo(responseWriter)
+	//nbrOfBytes, err := buffer.WriteTo(responseWriter)
+	_, err := buffer.WriteTo(responseWriter)
 	if err != nil {
 		fmt.Println("Error writing template to response writer", err)
 	}
 
-	fmt.Println("# of bytes written:", nbrOfBytes)
+	//fmt.Println("# of bytes written:", nbrOfBytes)
 }
 
 func CreateTemplateCache() (map[string]*template.Template, error) {
