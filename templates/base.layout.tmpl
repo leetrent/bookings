@@ -153,6 +153,11 @@
             })
         }
 
+        {{with .Flash}}   notify("{{.}}", "flash")   {{end}}
+        {{with .Error}}   notify("{{.}}", "error")   {{end}}
+        {{with .Warning}} notify("{{.}}", "warning") {{end}}
+        
+
         function Prompt() {
             let toast = function (c) {
                 const{
