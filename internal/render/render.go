@@ -16,6 +16,7 @@ import (
 var functions = template.FuncMap{}
 
 var appConfig *config.AppConfig
+var pathToTemplates = "./templates"
 
 func NewTemplates(ac *config.AppConfig) {
 	appConfig = ac
@@ -59,7 +60,7 @@ func RenderTemplate(responseWriter http.ResponseWriter, r *http.Request, templat
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./templates/*.page.tmpl")
+	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.tmpl", pathToTemplates))
 	if err != nil {
 		return myCache, err
 	}
@@ -74,7 +75,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		}
 
 		//matches, err := filepath.Glob("./templates/*.layout.tmpl")
-		matches, err := filepath.Glob(".\\templates\\*.layout.tmpl")
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl", pathToTemplates))
 		if err != nil {
 			return myCache, err
 		}
