@@ -3,3 +3,5 @@ $ go test -v
 $ go test -cover
 
 $ go test -coverprofile=coverage.out && go tool cover -html=coverage.out
+
+$ go run cmd/web/main.go cmd/web/routes.go cmd/web/middleware.go

@@ -1,0 +1,8 @@
+# Mac/Linux/Git Bash:
+
+$ chmod +x run.sh
+
+$ ./run.sh
+
+# Windows:
+$ go build -o bookings.exe cmd/web/. (doesn't work)
