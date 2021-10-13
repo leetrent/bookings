@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/leetrent/bookings/internal/config"
 	"github.com/leetrent/bookings/internal/handlers"
+	"github.com/leetrent/bookings/internal/helpers"
 	"github.com/leetrent/bookings/internal/models"
 	"github.com/leetrent/bookings/internal/render"
 )
@@ -38,6 +40,8 @@ func main() {
 
 func run() error {
 	appConfig.InProduction = false
+	appConfig.InfoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	appConfig.ErrorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -65,6 +69,7 @@ func run() error {
 	repo := handlers.NewRepo(&appConfig)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&appConfig)
+	helpers.NewHelpers(&appConfig)
 
 	return nil
 }
