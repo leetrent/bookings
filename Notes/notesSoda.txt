@@ -1,4 +1,17 @@
 $ soda generate fizz CreateUserTable
-
 $ soda migrate
+
+$ soda generate fizz CreateReservationTable
+$ soda migrate
+
+$ soda generate fizz CreateRoomsTable
+$ soda migrate
+
+$ soda generate fizz CreateRestrictionsTable
+$ soda migrate
+
+$ soda generate fizz CreateRoomRestrictionsTable
+$ soda migrate
+
+
 
