@@ -13,5 +13,21 @@ $ soda migrate
 $ soda generate fizz CreateRoomRestrictionsTable
 $ soda migrate
 
+$ soda generate fizz CreateFKForReservationsTable
+$ soda migrate
+
+$ soda generate fizz CreateFKForRoomRestrictionsTable
+$ soda migrate
+
+$ soda generate fizz CreateUniqueIndexForUserTable
+$ soda migrate
+
+$ soda generate fizz CreateIndicesOnRoomRestrictions
+$ soda migrate
+
+$ soda generate fizz AddFKAndIndicesToReservationsTable
+$ soda migrate
+
+$ soda reset
 
 
