@@ -7,21 +7,26 @@ import (
 	"net/http"
 
 	"github.com/leetrent/bookings/internal/config"
+	"github.com/leetrent/bookings/internal/driver"
 	"github.com/leetrent/bookings/internal/forms"
 	"github.com/leetrent/bookings/internal/helpers"
 	"github.com/leetrent/bookings/internal/models"
 	"github.com/leetrent/bookings/internal/render"
+	"github.com/leetrent/bookings/internal/repository"
+	"github.com/leetrent/bookings/internal/repository/dbrepo"
 )
 
 var Repo *Repository
 
 type Repository struct {
 	AppConfig *config.AppConfig
+	DB        repository.DatabaseRepo
 }
 
-func NewRepo(ac *config.AppConfig) *Repository {
+func NewRepo(ac *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		AppConfig: ac,
+		DB:        dbrepo.NewPostgresRep(db.SQL, ac),
 	}
 }
 
@@ -141,7 +146,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	reservation, ok := m.AppConfig.Session.Get(r.Context(), "reservation").(models.Reservation)
 
 	if !ok {
-		m.AppConfig.ErrorLog.Println ("Cannot get reservation summary out of HTTP session.")
+		m.AppConfig.ErrorLog.Println("Cannot get reservation summary out of HTTP session.")
 		m.AppConfig.Session.Put(r.Context(), "error", "Can't get reservation from session.")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return

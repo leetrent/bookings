@@ -10,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/leetrent/bookings/internal/config"
+	"github.com/leetrent/bookings/internal/driver"
 	"github.com/leetrent/bookings/internal/handlers"
 	"github.com/leetrent/bookings/internal/helpers"
 	"github.com/leetrent/bookings/internal/models"
@@ -23,10 +24,11 @@ var session *scs.SessionManager
 
 func main() {
 
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	server := &http.Server{
 		Addr:    port,
@@ -38,7 +40,7 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	appConfig.InProduction = false
 	appConfig.InfoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	appConfig.ErrorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
@@ -52,6 +54,16 @@ func run() error {
 	appConfig.Session = session
 
 	///////////////////////////////////////////////////////
+	// Connect to database
+	///////////////////////////////////////////////////////
+	log.Println("Attempting to connect to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=test_connect user=postgres password=Ca$eyPo0h")
+	if err != nil {
+		log.Fatal(fmt.Sprintf("Cannot connect to database: %v", err))
+	}
+	log.Println("Attempt to connect to database was successful.")
+
+	///////////////////////////////////////////////////////
 	// Register datatype models.Reservation
 	// so it can be stored in HTTP Session
 	///////////////////////////////////////////////////////
@@ -60,16 +72,16 @@ func run() error {
 	templateCache, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Cannot create template cache.")
-		return err
+		return nil, err
 	}
 
 	appConfig.TemplateCache = templateCache
 	appConfig.UseCache = false
 
-	repo := handlers.NewRepo(&appConfig)
+	repo := handlers.NewRepo(&appConfig, db)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&appConfig)
 	helpers.NewHelpers(&appConfig)
 
-	return nil
+	return db, nil
 }
