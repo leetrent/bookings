@@ -63,11 +63,13 @@ func run() (*driver.DB, error) {
 	}
 	log.Println("Attempt to connect to database was successful.")
 
-	///////////////////////////////////////////////////////
-	// Register datatype models.Reservation
-	// so it can be stored in HTTP Session
-	///////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////
+	// Register models so they can be stored in HTTP Session
+	////////////////////////////////////////////////////////
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 
 	templateCache, err := render.CreateTemplateCache()
 	if err != nil {
@@ -80,7 +82,7 @@ func run() (*driver.DB, error) {
 
 	repo := handlers.NewRepo(&appConfig, db)
 	handlers.NewHandlers(repo)
-	render.NewTemplates(&appConfig)
+	render.NewRenderer(&appConfig)
 	helpers.NewHelpers(&appConfig)
 
 	return db, nil
